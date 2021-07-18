@@ -11,6 +11,7 @@ import Subscribe from './Components/Subscribe';
 import {BrowserRouter as Router ,Route, Switch} from 'react-router-dom'
 
 import FormulaireSubs from './Components/Subscribe';
+import GestionCategories from './Components/GestionCategories';
 function App() {
   return (
     <Router>
@@ -27,6 +28,7 @@ function App() {
       
       
       <FormulaireSubs></FormulaireSubs>
+      <GestionCategories></GestionCategories>
       <Footer></Footer>
      
       
