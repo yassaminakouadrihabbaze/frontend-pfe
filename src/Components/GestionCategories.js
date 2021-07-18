@@ -11,6 +11,7 @@ function GestionCategories() {
 
   const getAllCategories = () => CategoryService.getAll().then(res => {
     setCategorieList(res.data);
+    setCategorie(res.data[0]?.id || 0)
   })
   useEffect(() => {
     getAllCategories()
@@ -26,7 +27,7 @@ function GestionCategories() {
   const handleOnDelete = () => {
     CategoryService.remove(category_id).then(res => {
       getAllCategories()
-    })
+    }).catch(err=>{})
   }
 
   return (
