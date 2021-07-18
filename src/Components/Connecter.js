@@ -1,51 +1,64 @@
 import { SentimentSatisfied } from '@material-ui/icons';
-import React , {useState}from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import Header from './Header'
-
+import UserService from '../services/users';
 
 
 function Connecter() {
 
-  const [email, setEmail]= useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState('');
-    
-  const signIn = e =>{
+
+  const signIn = e => {
     e.preventDefault()
-    //some fancy firebase register shiiiit....
+    UserService.login({ username, password })
+      .then(res => {
+        document.cookie = "token="+res.data.token;
+      }).catch(err => {
+        const data = err.response.data
+        if (data.errors) {
+          let str_error = "le champ "
+          data.errors.map(e => str_error += e + ", ")
+          str_error += "est obligatoire"
+          alert(str_error)
+        } else if(data.code) {
+          alert('Ce compt ne existe pas!')
+        }
+      })
   }
 
- 
 
-    return (
-        <div>
-        
-        <Container>
-         
-         <LoginContainer>
-             <ConnectewVous><h3>Connectez vous</h3></ConnectewVous>
-           <EmailInput onChange={e=>setEmail(e.target.value)} type='text' placeholder="E-mail" value={email}>
-           </EmailInput>
-           <KeyWordInput  onChange={e=>setPassword(e.target.value)} type='text' placeholder="password" value={password} >
-           </KeyWordInput >
-           <ForgetKey>
-               <Text ><a>Mot de passe oublier ?</a></Text>
-               <OKBtn onClick={signIn}>OK</OKBtn>
-           </ForgetKey>
-         </LoginContainer>
-         <Ou><Text>OU</Text></Ou>
-         <SigninContainer>
-             <Text2><h3>Inscrivez vous</h3></Text2>
-             <Link to="/subscibe">
-             <SinginBtn >CREER UN COMPTE</SinginBtn>
-             </Link>
 
-         </SigninContainer>
-        </Container>
-        </div>
-        
-    )
+  return (
+    <div>
+
+      <Container>
+
+        <LoginContainer>
+          <ConnectewVous><h3>Connectez vous</h3></ConnectewVous>
+          <EmailInput onChange={e => setUsername(e.target.value)} type='text' placeholder="E-mail" value={username} required>
+          </EmailInput>
+          <KeyWordInput onChange={e => setPassword(e.target.value)} type='text' placeholder="password" value={password} required >
+          </KeyWordInput >
+          <ForgetKey>
+            <Text ><a>Mot de passe oublier ?</a></Text>
+            <OKBtn onClick={signIn}>OK</OKBtn>
+          </ForgetKey>
+        </LoginContainer>
+        <Ou><Text>OU</Text></Ou>
+        <SigninContainer>
+          <Text2><h3>Inscrivez vous</h3></Text2>
+          <Link to="/subscibe">
+            <SinginBtn >CREER UN COMPTE</SinginBtn>
+          </Link>
+
+        </SigninContainer>
+      </Container>
+    </div>
+
+  )
 }
 export default Connecter
 export const Container = styled.div`

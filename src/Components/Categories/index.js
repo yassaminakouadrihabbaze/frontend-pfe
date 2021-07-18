@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import img2 from 'C:/Users/Lenovo/pfee/src/image/Capture1.PNG';
-import img3 from 'C:/Users/Lenovo/pfee/src/image/Capture2.PNG';
-import img4 from 'C:/Users/Lenovo/pfee/src/image/Capture3.PNG';
+import img2 from './../../image/Capture1.PNG';
+import img3 from './../../image/Capture2.PNG';
+import img4 from './../../image/Capture3.PNG';
 
 function Categories() {
     return (

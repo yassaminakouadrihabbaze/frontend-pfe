@@ -1,47 +1,79 @@
-import React, {useState}  from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 import Header from './Header';
-
-
+import UserService from '../services/users';
 
 
 function FormulaireSubs() {
-  const [email, setEmail]= useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState('');
-  const [firstName, setFirstName]= useState("");
+  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
   const [secondName, setSecondName] = useState('');
-  const [civilisation, setCivilisation]= useState("");
+  const [adress, setAdress] = useState("");
+  const [ddn, setDdn] = useState(new Date());
   const [confirPass, setConfirPass] = useState('');
-    
-    
-    return (
-      <div>
-          
-          <Container>
-              <FirstRow>
-                  <CivilisationInput onChange={e=>setEmail(e.target.value)} type='text' placeholder="civilisation" value="civilisation"></CivilisationInput>
-                  <FirstNameInput onChange={e=>setEmail(e.target.value)} type='text' placeholder="First Name" value="firstName"></FirstNameInput>
-                  <SecondNameInput onChange={e=>setEmail(e.target.value)} type='text' placeholder="Second Name" value="SecondName"></SecondNameInput>
-              </FirstRow>
-              <SecondRow>
-                  <MailInput onChange={e=>setEmail(e.target.value)} type='text' placeholder="E-mail" value={email}></MailInput>
-              </SecondRow>
-              <ThirdRow>
-                  <KeyInput  onChange={e=>setEmail(e.target.value)} type='text' placeholder="Mot de passe" value="password"></KeyInput>
-                  <KeyConfInput  onChange={e=>setEmail(e.target.value)} type='text' placeholder="Confirmer le mot de passe" value="confirPass"></KeyConfInput>
-              </ThirdRow>
+  const [num_tel, setNumTel] = useState("");
 
-          </Container>
-        
-        
-        
-      </div>
-      
-      
-        
-         
-        
-    )
+
+  const handleRegister = () => {
+    if (password !== confirPass) {
+      alert('Le mot de pass ne sont pas similaire')
+    } else {
+      const data = {
+        nom: firstName,
+        prenom: secondName,
+        type: "client",
+        password, username,
+        adress, num_tel, email, ddn, email
+      }
+
+      UserService.register(data)
+      .then(res=>{
+        console.log(res);
+      })
+      .catch(err=>{
+        const data = err.response.data;
+        if (data.errors){
+          data.errors.map(e=>{
+            if (e.field === 'users.email' && e.error === "not_unique")
+              alert('email est déja utiliser')
+              else if (e.field === 'users.username' && e.error === "not_unique")
+              alert('username est déja utiliser')
+          })
+        }
+        console.log();
+      });
+    }
+  }
+
+
+  return (
+    <div>
+
+      <Container>
+        <FirstRow>
+          <CivilisationInput onChange={e => setAdress(e.target.value)} type='text' placeholder="Adress" value={adress}></CivilisationInput>
+          <FirstNameInput onChange={e => setFirstName(e.target.value)} type='text' placeholder="First Name" value={firstName}></FirstNameInput>
+          <SecondNameInput onChange={e => setSecondName(e.target.value)} type='text' placeholder="Second Name" value={secondName}></SecondNameInput>
+        </FirstRow>
+        <SecondRow>
+          <MailInput onChange={e => setEmail(e.target.value)} type='text' placeholder="E-mail" value={email}></MailInput>
+          <MailInput onChange={e => setNumTel(e.target.value)} type='text' placeholder="Num Tel" value={num_tel}></MailInput>
+        </SecondRow>
+        <ThirdRow>
+        <KeyInput onChange={e => setUsername(e.target.value)} type='text' placeholder="Username" value={username}></KeyInput>
+          <KeyInput onChange={e => setPassword(e.target.value)} type='text' placeholder="Mot de passe" value={password}></KeyInput>
+          <KeyConfInput onChange={e => setConfirPass(e.target.value)} type='text' placeholder="Confirmer le mot de passe" value={confirPass}></KeyConfInput>
+        </ThirdRow>
+        <label for="start">Date de naissance</label>
+        <input type="date" id="start" name="trip-start"
+          value={ddn} onChange={(e) => setDdn(e.target.value)}
+          min="1950-01-01" max="2002-01-01"></input>
+        <button onClick={handleRegister}>Register</button>
+      </Container>
+    </div>
+  )
 }
 export default FormulaireSubs
 export const Container = styled.div`
@@ -56,7 +88,7 @@ margin: 100px;
 
 `;
 
-export const FirstRow   = styled.div`
+export const FirstRow = styled.div`
 display: flex;
 
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import img1 from 'C:/Users/Lenovo/pfee/src/image/Logo1.png';
+import img1 from './../../image/Logo1.png';
 
 
 export const Container = styled.div`
