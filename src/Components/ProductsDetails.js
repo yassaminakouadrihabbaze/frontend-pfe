@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import GavelIcon from '@material-ui/icons/Gavel';
 
-function Connecter() {
+function ProductsDetails
+() {
 
       return (
           <div>
           
           <Container>
            <ImgContainer>
-           <img  ></img>
+           
             </ImgContainer>
-          </Container>
+         
           <DetailsSection>
               <ul>
                   <li>
@@ -32,41 +33,68 @@ function Connecter() {
               </ul>
               <DetailsFooter>
                   <ImgsPagination></ImgsPagination>
-                   <Biding>
-                       <bidingInput></bidingInput>
-                        <GavelIcon></GavelIcon>
+                  
+                       <Biding>
+                       
+                       <Input  type='text' placeholder="bid for the product" ></Input>
+                       <button><GavelIcon></GavelIcon></button>
                    </Biding>
               </DetailsFooter>
           </DetailsSection>
+          </Container>
           </div>
           
       )
   }
-  export default Connecter
+  export default ProductsDetails
+
   export const Container = styled.div`
   display: flex;
   //flex-direction: column;
-  background-color: #D3D3D3;
+  //background-color: gray;
+  
+  
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top:100px ;
+  margin: 100px;
+
   `;
  export const ImgContainer = styled.div`
+ height: 300px;
+  min-width: 300px;
+  max-width: 100%;
+  margin: 50px;
+  
+;
+  box-shadow: 8px 8px #d62525;
  
  `;
  export const DetailsSection = styled.div`
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
 
  `;
- export const DetailsFooter = styled.div`
-
- `;
+ 
  export const ImgsPagination = styled.div`
+
 
  `;
  export const Biding = styled.div`
-
+ align-items: center;
+  
  `;
- export const bidingInput = styled.input`
+ export const Input = styled.input`
+ //height: 100px;
+ //width: 100px;
+ height: 24px ;
 
  `;
  export const DetailsFooter = styled.div`
+ height: 10px;
+ display: flex;
+
 
  `;
  

@@ -1,7 +1,9 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component, useEffect,useState } from 'react';
 import CategoryService from './../services/category';
+import ProductService from './../services/products';
+import styled from'styled-components'
 
-function Connecter() {
+function AddProduct() {
 
     const [Name, setName] = useState("");
     const [categories, setCategorieList] = useState([]);
@@ -10,6 +12,21 @@ function Connecter() {
     const [Quantite, setQuantite] = useState('');
     const [Description, setDescription] = useState("");
     
+    const handleOnAdd = () => {
+      ProductService.create({
+        nom: Name, dsecription: Description, prix: Prix, qte: Quantite, category_id
+      }).then(res=>{
+        setName("");
+        setDescription("")
+      }).catch(err=>{
+        //alert("une erreur c'est produite")
+        const error = err.response.data.errors;
+        error.map(el=>{
+          if(el.field ===	"nom" && el.error	=== "not_unique")
+          alert('Ce Nom est Déja prise');
+        })
+      });
+    }
 
     useEffect(() => {
         CategoryService.getAll().then(res=>{
@@ -21,22 +38,23 @@ function Connecter() {
       <div>
   
         <Container>
-        <input onChange={e => setName(e.target.value)} type='text' placeholder="" value={Name}></input>
-        <input onChange={e => setUsername(e.target.value)} type='text' placeholder="" value={}></input>
-        <input onChange={e => setPrix(e.target.value)} type='text' placeholder="" value={Prix}></input>
-        <input onChange={e => setQuantite(e.target.value)} type='text' placeholder="" value={Quantite}></input>
-        <input onChange={e =>  setDescription(e.target.value)} type='text' placeholder="" value={Description}></input>
-        <select value={category_id} onChange={(e)=>setCategorie(e.target.value)}>
-            {categories.map(el=><option value={el.id}>{el.nom}</option>)}
+        <input onChange={e => setName(e.target.value)} type='text' placeholder="name" value={Name}></input>
+        
+        <input required onChange={e => setPrix(e.target.value)} type='text' placeholder="price initial" value={Prix}></input>
+        <input required onChange={e => setQuantite(e.target.value)} type='text' placeholder="Quantite" value={Quantite}></input>
+        <input required onChange={e =>  setDescription(e.target.value)} type='text' placeholder="Description" value={Description}></input>
+        <select required value={category_id} onChange={(e)=>setCategorie(e.target.value)}>
+        {categories.map(el=><option value={el.id}>{el.nom}</option>)}
             
         </select>
+        <button onClick={handleOnAdd}>Add</button>
           
         </Container>
       </div>
   
     )
   }
-  export default Connecter
+  export default AddProduct
   export const Container = styled.div`
   display: flex;
   flex-direction: column;
